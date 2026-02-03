@@ -1,0 +1,10 @@
+{
+  "name": "sub-par-powers",
+  "description": "Skills for token-efficient requirement gathering, implementation planning, and exact plan execution for Haiku models.",
+  "version": "1.0.0",
+  "author": {
+    "name": "EdwinMurari"
+  },
+  "repository": "https://github.com/EdwinMurari/sub-par-powers",
+  "license": "MIT"
+}
