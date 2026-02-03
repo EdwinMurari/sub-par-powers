@@ -1,28 +1,43 @@
 # Sub-Par-Powers
 
-A Claude Code plugin with skills for token-efficient requirement gathering, implementation planning, and exact plan execution for Haiku models.
+A plugin with skills for token-efficient requirement gathering, implementation planning, and exact plan execution for Haiku models.
 
 ## Installation
 
-### Option 1: From GitHub (recommended)
+### Universal (via skills.sh) - Works with 35+ agents
 
 ```bash
-# In Claude Code, add this repository as a marketplace
-/plugin marketplace add EdwinMurari/sub-par-powers
+# Install to specific agent
+npx skills add EdwinMurari/sub-par-powers --agent claude-code
+npx skills add EdwinMurari/sub-par-powers --agent antigravity
+npx skills add EdwinMurari/sub-par-powers --agent cursor
 
-# Install the plugin
-/plugin install sub-par-powers@EdwinMurari
+# Install to all detected agents
+npx skills add EdwinMurari/sub-par-powers --agent '*'
+
+# Install globally (available in all projects)
+npx skills add EdwinMurari/sub-par-powers --agent claude-code -g
 ```
 
-### Option 2: Local Development
+### Claude Code Plugin (alternative)
 
 ```bash
-# Clone the repository
-git clone https://github.com/EdwinMurari/sub-par-powers.git
+# Add as plugin marketplace
+/plugin marketplace add EdwinMurari/sub-par-powers
+```
 
-# Run Claude Code with the plugin
+### Local Development
+
+```bash
+git clone https://github.com/EdwinMurari/sub-par-powers.git
 claude --plugin-dir ./sub-par-powers
 ```
+
+### Memory File (Optional)
+
+For always-on code quality rules, copy content from [`docs/recommended-memory-rules.md`](docs/recommended-memory-rules.md) to:
+- **Claude Code:** `~/.claude/CLAUDE.md`
+- **Antigravity:** `GEMINI.md` in project root
 
 ## Skills
 
