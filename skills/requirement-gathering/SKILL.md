@@ -74,3 +74,17 @@ After requirements gathered:
 ```
 REQUIRED SUB-SKILL: writing-haiku-plans
 ```
+
+## Cache Integration
+
+After requirements complete, update `.claude/cache/session-cache.yaml`:
+
+```yaml
+decisions:
+  - id: "[feature-name]"
+    decision: "[goal from requirements]"
+    reason: "[key constraints and success criteria]"
+    date: "[today]"
+    files: ["[files examined]"]
+```
+

@@ -91,3 +91,20 @@ After plan written:
 ```
 REQUIRED SUB-SKILL: executing-haiku-plans
 ```
+
+## Cache Integration
+
+After plan approved, update `.claude/cache/session-cache.yaml`:
+
+```yaml
+key_locations:
+  [feature]: "[main file path]#L[start]-L[end]"
+
+decisions:
+  - id: "[plan-name]"
+    decision: "[goal]"
+    reason: "[approach summary]"
+    date: "[today]"
+    files: ["[files_to_modify]"]
+```
+

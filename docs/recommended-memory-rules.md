@@ -40,4 +40,25 @@ Copy these rules to your memory file for always-on enforcement.
 - Never claim success without running verification command
 - Evidence before assertions, always
 - No "should work" or "probably passes"
+
+---
+
+# Prompt Optimization Rules
+
+## Structure
+- Use XML tags for sections: `<task>`, `<files>`, `<step>`, `<verify>`
+- Use YAML/JSON for structured data instead of prose
+- Use tables for comparisons
+
+## Token Compression
+- Remove filler: "please note that", "it's important to", "make sure to"
+- One strong example beats many weak ones
+- Cross-reference with `REQUIRED SUB-SKILL:` instead of duplicating
+- Progressive disclosure: teach how to find info, don't embed all
+
+## Latency Optimization
+- Skeleton-of-Thought: outline first, expand in parallel
+
+## Context Management
+- Link to files instead of force-loading (@)
 ```

@@ -1,0 +1,22 @@
+{
+    "name": "sub-par-powers",
+    "owner": {
+        "name": "EdwinMurari"
+    },
+    "plugins": [
+        {
+            "name": "session-cache",
+            "source": "./",
+            "description": "Token-efficient context caching with hooks for file reads and web fetches",
+            "version": "1.0.0",
+            "author": {
+                "name": "EdwinMurari"
+            },
+            "tags": [
+                "cache",
+                "hooks",
+                "token-efficiency"
+            ]
+        }
+    ]
+}

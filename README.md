@@ -1,30 +1,28 @@
 # Sub-Par-Powers
 
-A plugin with skills for token-efficient requirement gathering, implementation planning, and exact plan execution for Haiku models.
+A plugin for token-efficient development: skills for requirement gathering, implementation planning, and session caching with automatic cache invalidation.
 
-## Installation
+## Install
 
-### Universal (via skills.sh) - Works with 35+ agents
-
-```bash
-# Install to specific agent
-npx skills add EdwinMurari/sub-par-powers --agent claude-code
-npx skills add EdwinMurari/sub-par-powers --agent antigravity
-npx skills add EdwinMurari/sub-par-powers --agent cursor
-
-# Install to all detected agents
-npx skills add EdwinMurari/sub-par-powers --agent '*'
-
-# Install globally (available in all projects)
-npx skills add EdwinMurari/sub-par-powers --agent claude-code -g
-```
-
-### Claude Code Plugin (alternative)
+### Claude Code Plugin
 
 ```bash
-# Add as plugin marketplace
+# Step 1: Add the marketplace
 /plugin marketplace add EdwinMurari/sub-par-powers
+
+# Step 2: Install the plugin
+/plugin install session-cache@sub-par-powers
 ```
+
+### Universal (via skills.sh) - Skills only, no hooks
+
+```bash
+npx skills add EdwinMurari/sub-par-powers --agent claude-code
+npx skills add EdwinMurari/sub-par-powers --agent opencode
+npx skills add EdwinMurari/sub-par-powers --agent '*'  # all agents
+```
+
+> **Limitation:** skills.sh only installs the skill files (markdown instructions). Session cache hooks are not installed — cache behavior relies on LLM following the rules in skills, which is less reliable than hooks.
 
 ### Local Development
 
@@ -33,65 +31,53 @@ git clone https://github.com/EdwinMurari/sub-par-powers.git
 claude --plugin-dir ./sub-par-powers
 ```
 
-### Memory File (Optional)
+**Requires:** `pip install pyyaml` (for hooks)
 
-For always-on code quality rules, copy content from [`docs/recommended-memory-rules.md`](docs/recommended-memory-rules.md) to:
-- **Claude Code:** `~/.claude/CLAUDE.md`
-- **Antigravity:** `GEMINI.md` in project root
+## Features
 
-## Skills
+### Skills
 
-| Skill | Description | Invoke |
-|-------|-------------|--------|
-| `requirement-gathering` | Socratic interview to clarify requirements | `/sub-par-powers:requirement-gathering` |
-| `writing-haiku-plans` | Create exact implementation plans for Haiku | `/sub-par-powers:writing-haiku-plans` |
-| `executing-haiku-plans` | Execute plans verbatim with no additions | `/sub-par-powers:executing-haiku-plans` |
-| `reviewing-implementation` | Verify implementation matches plan exactly | `/sub-par-powers:reviewing-implementation` |
-| `optimizing-prompts` | Audit prompts for token efficiency | `/sub-par-powers:optimizing-prompts` |
+| Skill | Description |
+|-------|-------------|
+| `requirement-gathering` | Socratic interview to clarify requirements |
+| `writing-haiku-plans` | Create exact implementation plans for Haiku |
+| `executing-haiku-plans` | Execute plans verbatim with no additions |
+| `reviewing-implementation` | Verify implementation matches plan exactly |
+| `optimizing-prompts` | Audit prompts for token efficiency |
+
+### Session Cache (Hooks)
+
+Automatic hooks prevent redundant file reads and save web fetches:
+
+| Hook | Trigger | Action |
+|------|---------|--------|
+| `context-check.py` | Before Read/WebFetch | Checks cache freshness, provides line ranges |
+| `log-reads.py` | After Read/WebFetch | Logs file mtime + sections to cache |
+
+**Cache invalidation:**
+- Files: Invalidates when file modified (mtime check)
+- Web: Expires after TTL (default 7 days)
 
 ## Workflow
 
 ```
-┌─────────────────────────┐
-│ 1. requirement-gathering│  ← Socratic interview
-└───────────┬─────────────┘
-            │
-            ▼
-┌─────────────────────────┐
-│ 2. writing-haiku-plans  │  ← Create exact plan
-└───────────┬─────────────┘
-            │
-            ▼
-┌─────────────────────────┐
-│ 3. executing-haiku-plans│  ← Execute verbatim (Haiku session)
-└───────────┬─────────────┘
-            │
-            ▼
-┌─────────────────────────┐
-│ 4. reviewing-implementation│  ← Verify exact match
-└─────────────────────────┘
+requirement-gathering → writing-haiku-plans → executing-haiku-plans → reviewing-implementation
 ```
 
-## Core Principles
-
-1. **Token Efficiency** — Short, structured prompts; no filler
-2. **Exact Execution** — Haiku executes plans verbatim, no additions
-3. **Clean Code** — No workarounds, no TODO/FIXME, no dead code
-4. **Verification** — Every task has verification; every execution reviewed
-
-## Plan Storage
-
-Implementation plans are saved to:
+## Structure
 
 ```
-docs/plans/YYYY-MM-DD-<name>.md
+sub-par-powers/
+├── .claude-plugin/plugin.json   # Plugin manifest
+├── hooks/
+│   ├── hooks.json               # Hook definitions
+│   └── scripts/                 # Python hook scripts
+├── skills/                      # Skill definitions
+└── docs/                        # Memory rules, plans
 ```
 
-## Compatibility
+## Memory Rules (Optional)
 
-- Claude Code version 1.0.33 or later
-- Designed for Haiku model execution in separate sessions
-
-## License
-
-MIT
+Copy [`docs/recommended-memory-rules.md`](docs/recommended-memory-rules.md) to:
+- `~/.claude/CLAUDE.md` (Claude Code)
+- `GEMINI.md` (Antigravity)
