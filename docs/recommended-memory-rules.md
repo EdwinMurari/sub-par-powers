@@ -61,4 +61,14 @@ Copy these rules to your memory file for always-on enforcement.
 
 ## Context Management
 - Link to files instead of force-loading (@)
+- Check context before reading: "Have I already read this file?"
+- If already read in this session, use that — don't re-read
+- Read only needed sections (use offset+limit for partial reads)
+
+## Anti-Hallucination
+- NEVER assume file contents not explicitly read
+- NEVER fabricate function signatures, APIs, or behaviors
+- When making claims about code, cite: `[source: file.py#L45-80]`
+- Before answering from memory, verify: "Did I read this in context?"
 ```
+
